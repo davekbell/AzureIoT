@@ -30,19 +30,19 @@ def on_connect(client, userdata, flags, rc):
 
 # When MQTT client publishes, this function is called
 def on_publish(client, userdata, mid):
-    print("Data: " + temperature0 + " " + "Result code: " + str(rc) + " " + "Message ID: " + str(mid))
+    print("Data: " + messageData + " " + "Result code: " + str(rc) + " " + "Message ID: " + str(mid))
 
 # Call the generate_sas_token function and assign the result to SAStoken variable
-SAStoken = generate_sas_token(uri="etisalat-iot-hub-etl.azure-devices.net%2Fdevices%2Fabbtestdevice", key="+i5/3u0DsYoZc0FCKVD2iReK6XFG65ET2/la5MC2PHA=", policy_name=None)
+SAStoken = generate_sas_token(uri="{iot hub name.azure-devices.net%2Fdevices%2F{deviceID}", key="{device key}", policy_name=None)
 
 
 print("\nGenerated SAS Token: " + SAStoken)
 
 # Set parameters for the MQTT client
-mqtt_username = "etisalat-iot-hub-etl.azure-devices.net/abbtestdevice/api-version=2018-06-30"
+mqtt_username = "{iot hub name}.azure-devices.net/{deviceID}/api-version=2018-06-30"
 mqtt_password = SAStoken
-mqtt_client_id = "abbtestdevice"
-mqtt_broker = "13.95.15.251"
+mqtt_client_id = "{deviceID}"
+mqtt_broker = "{iot hub name}/azure-devices.net"
 
 
 # Create MQTT client
@@ -68,7 +68,7 @@ mqtt_client.connect(host=mqtt_broker, port=8883, keepalive=240, bind_address="")
 mqtt_client.loop_start()
 
 while True:
-    temperature0 = "{\"Label\":" + str(random.randint(0, 23)) + \
+    messageData = "{\"Label\":" + str(random.randint(0, 23)) + \
                     ",\"House\":" + str(random.randint(0, 500)) + \
                     ",\"Yr\":" + str(random.randint(2011, 2013)) + \
                     ",\"Mon\":" + str(random.randint(1, 12)) + \
@@ -76,5 +76,5 @@ while True:
                     ",\"Daylight\":" + str(random.randint(400, 1000)) + \
                     "}"
 
-    (rc, mid) = mqtt_client.publish("devices/abbtestdevice/messages/events/", temperature0, qos=0, retain=True)
+    (rc, mid) = mqtt_client.publish("devices/{deviceID}/messages/events/", messageData, qos=0, retain=True)
     time.sleep(2)

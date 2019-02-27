@@ -29,7 +29,7 @@ SEND_CALLBACKS = 0
 
 # String containing Hostname, Device Id & Device Key in the format:
 # "HostName=<host_name>;DeviceId=<device_id>;SharedAccessKey=<device_key>"
-CONNECTION_STRING = "HostName=dxbdave-iothub-primary.azure-devices.net;DeviceId=myPythonDevice;SharedAccessKey=WaLjuerb482W3bZigebmmWWwfHDbGqk5QMkbznNc4ZA="
+CONNECTION_STRING = "{insert device connection string here}"
 
 MSG_TXT = "{\"deviceId\": \"myPythonDevice\",\"windSpeed\": %.2f,\"temperature\": %.2f,\"humidity\": %.2f}"
 
